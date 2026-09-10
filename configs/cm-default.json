@@ -1,0 +1,27 @@
+{
+  "network_access": true,
+  "upstream_service_flows": [
+    {
+      "ref": 1,
+      "qos_param_set": 7,
+      "traffic_priority": 1,
+      "max_sustained_bps": 2000000,
+      "max_burst_bytes": 3044,
+      "min_reserved_bps": 0,
+      "max_concatenated_burst": 1522,
+      "scheduling_type": 2
+    }
+  ],
+  "downstream_service_flows": [
+    {
+      "ref": 2,
+      "qos_param_set": 7,
+      "traffic_priority": 1,
+      "max_sustained_bps": 20000000,
+      "max_burst_bytes": 3044
+    }
+  ],
+  "max_cpe": 4,
+  "max_classifiers": 8,
+  "privacy_enable": false
+}

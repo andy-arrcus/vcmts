@@ -1,0 +1,4 @@
+#!/bin/sh
+# Convenience wrapper so the tool can be run as ./docsis from the repo root.
+cd "$(dirname "$0")" || exit 1
+exec python3 -m docsislab "$@"
