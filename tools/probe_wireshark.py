@@ -11,8 +11,10 @@ and reports back what the dissector made of each.
 from __future__ import annotations
 
 import os
+import shutil
 import subprocess
 import sys
+import tempfile
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
@@ -24,8 +26,13 @@ from docsislab.docsis.consts import (FCParm, FCType, IUC, MgmtType, Modulation,
                                      MGMT_VERSION_10, RangingStatus)
 from docsislab.docsis import messages as M
 
-TSHARK = "/Applications/Wireshark.app/Contents/MacOS/tshark"
-OUT = "/private/tmp/claude-502/-Users-andrewsmith-cable/6fbed708-1076-41f7-a468-49d0fa540e1d/scratchpad/probe.pcapng"
+#: Wireshark's tshark, wherever it happens to live.
+TSHARK = (shutil.which("tshark")
+          or next((c for c in ("/Applications/Wireshark.app/Contents/MacOS/tshark",
+                               "/usr/local/bin/tshark",
+                               "/opt/homebrew/bin/tshark")
+                   if os.path.exists(c)), None))
+OUT = os.path.join(tempfile.gettempdir(), "docsislab-probe.pcapng")
 
 CMTS_MAC = bytes.fromhex("0005ca000001")
 CM_MAC = bytes.fromhex("001dcf112233")
@@ -182,6 +189,10 @@ def build() -> list[str]:
 
 
 def run():
+    if TSHARK is None:
+        print("tshark not found -- install Wireshark to run this probe",
+              file=sys.stderr)
+        return 1
     labels = build()
     print(f"wrote {OUT} with {len(labels)} frames\n")
     fields = ["frame.number", "frame.interface_name", "docsis.hcs.status",
