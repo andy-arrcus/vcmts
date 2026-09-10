@@ -1,8 +1,10 @@
-# docsislab — a virtual DOCSIS 2.0 CMTS and cable modem
+# vcmts — a virtual DOCSIS 2.0 CMTS and cable modem
 
 A CMTS and a cable modem that talk to each other in real DOCSIS 2.0 bytes over
 a simulated HFC plant, built so you can watch a modem come online and take
 apart every step of how it got there.
+
+The Python package is `docsislab` and the command is `./docsis`.
 
 ```
 $ ./docsis run
